@@ -1,48 +1,45 @@
-# ANUx-WRT Web — Arsitektur v2 ("network pulse")
+# ANUx-WRT Web — Arsitektur v3 ("the router computer")
 
-Situs statis murni (HTML/CSS/JS vanilla), deploy via GitHub Pages. Tanpa build step, tanpa framework.
+Situs statis murni (HTML/CSS/JS vanilla), deploy via GitHub Pages. Tanpa build step.
+
+Referensi desain: shot Dribbble Zajno "Landing Page Design for an Open-Source
+AI Tool" (Superlinked) — halaman sebagai satu motherboard: chassis gelap,
+board abu hangat, trace PCB, sekrup sudut, LED, panel LCD, boot sequence.
 
 ## Struktur
 
 ```text
 anux-wrt-web/
-├── index.html          # struktur halaman: hero, explorer, fitur, perangkat, panduan, footer
-├── css/style.css       # seluruh styling + keyframes animasi
-├── js/net-canvas.js    # background canvas: node + paket data beranimasi
-├── js/parser.js        # parser nama file firmware -> metadata (device, kernel, tunnel, ...)
-├── js/releases.js      # provider data: GitHub Releases API + cache + fallback
-├── js/main.js          # controller: filter, render list, count-up, reveal on scroll
-└── docs/               # dokumentasi (file ini + ROADMAP.md)
+├── index.html          # boot overlay, board, hero chip + modul, explorer, fitur, perangkat, panduan
+├── css/style.css       # seluruh styling v3 (board/chassis/LCD/LED/trace)
+├── js/main.js          # boot, LCD cycler, filter, render, count-up, reveal
+├── js/parser.js        # parser nama file firmware -> metadata (tidak berubah sejak v1)
+├── js/releases.js      # provider data (cache key berversi _v3)
+└── docs/               # ARCHITECTURE.md, ROADMAP.md
 ```
+
+## Bahasa visual
+
+| Elemen | Implementasi |
+|---|---|
+| Chassis | `.chassis` padding gelap `#0b0c0e`, `.board` radius 18px + shadow |
+| Sekrup sudut | `.screw` — radial gradient + slot, rotasi acak per sudut |
+| Trace PCB | SVG inline `.trace-layer`: trace statis abu + `.traces-live` copper dengan animasi `stroke-dashoffset` |
+| Pin array | `.pin-strip` — repeating-linear-gradient |
+| LED | `.led` — dot copper + glow, blink 2.4s (delay bervariasi via `.d2/.d3`) |
+| LCD | `.lcd-panel` — inset gelap, teks amber `#ffb000` + text-shadow, scanlines via repeating gradient |
+| Boot overlay | `#bootOverlay` — baris log diketik + progress bar "LINKING… %", max 6 detik, klik untuk skip |
+| Tipografi | Barlow Condensed (display, uppercase), IBM Plex Mono (label/LCD), Inter (body) |
+
+## Kejujuran mode pratinjau
+
+- Badge sumber: `PRATINJAU — DATA CONTOH` (amber) vs `LIVE — <repo>` (hijau).
+- Di preview mode: tombol unduh jadi disabled "Segera", kolom "DIUNDUH" disembunyikan,
+  tombol "Salin" disembunyikan, counter hasil filter melabeli "DATA CONTOH".
+- Tidak ada angka dummy yang disajikan seolah data asli.
 
 ## Aliran data
 
-1. `ReleasesProvider.fetchReleases()`:
-   - Cek `localStorage` (`anuxwrt_releases_cache_v2`, TTL 15 menit).
-   - Fetch `GET api.github.com/repos/latifangren/ANUx-WRT/releases?per_page=100`,
-     ambil asset `.img.gz` / `.img.xz` / `.tar.gz` dari semua rilis.
-   - Gagal / kosong → dataset fallback lokal (14 file contoh, mode pratinjau).
-2. `FirmwareParser.parseFilename(name)` mengubah tiap nama file menjadi
-   `{ deviceName, category, os, osVersion, kernel, kernelFlavor, bootMode, wifi, rootfs, tunnelText, dateStr }`.
-3. `main.js` menerapkan 5 filter (search, kategori, kernel, boot, tunnel),
-   me-render `.firmware-row` dengan entrance stagger, dan menganimasikan
-   counter statistik (count-up easeOutQuart).
-
-## Animasi
-
-| Area | Teknik |
-|---|---|
-| Background hero | `<canvas>` vanilla: node melayang + edge + paket glow (cyan/orange). Pause saat tab hidden, skip bila `prefers-reduced-motion`. |
-| Judul hero | gradient text dengan `background-position` animation |
-| Statistik | count-up via `requestAnimationFrame` |
-| Section & kartu | `IntersectionObserver` → class `.visible` (translateY + fade, delay via `data-delay`) |
-| Baris firmware | stagger `.row-in` per render (45ms/row, max 15) |
-| Badge sumber | pulse dot (live hijau / pratinjau kuning) |
-| Kartu fitur | radial glow mengikuti kursor (`--mx/--my`) |
-| Loading | `.spinner` (border-top rotate) + skeleton shimmer |
-
-## Catatan
-
-- Tidak ada emoji di UI — ikon memakai inline SVG.
-- Semua teks user-generated (nama file dsb.) di-escape via `escapeHtml`/`escapeAttr`.
-- Cache key berversi (`_v2`) agar visitor lama tidak terjebak data basi.
+Sama seperti v2: `ReleasesProvider` (cache 15 mnt → API → fallback) →
+`FirmwareParser.parseFilename` → filter 5 dimensi → render `.firmware-row`
+dengan stagger hanya di render pertama / setelah idle 600ms (tidak per keystroke).
