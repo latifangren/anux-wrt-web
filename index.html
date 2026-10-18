@@ -11,6 +11,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    // pre-apply tema sebelum paint (anti flicker)
+    try {
+      var t = localStorage.getItem("anuxwrt_theme");
+      document.documentElement.setAttribute("data-theme", t === "dark" ? "dark" : "light");
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  </script>
   <noscript><style>#bootOverlay { display: none !important; }</style></noscript>
 </head>
 <body>
@@ -18,7 +27,7 @@
   <!-- Boot sequence overlay -->
   <div id="bootOverlay" aria-hidden="true">
     <div class="boot-box">
-      <div class="boot-head">ANUx-WRT // BOARD REV 2.0</div>
+      <div class="boot-head">ANUx-WRT // BOARD REV 3.0</div>
       <div class="boot-lines" id="bootLines"></div>
       <div class="boot-bar"><span id="bootFill"></span></div>
       <div class="boot-pct" id="bootPct">LINKING… 0%</div>
@@ -36,8 +45,9 @@
       <header class="site-header" id="siteHeader">
         <a href="#top" class="brand">
           <span class="brand-plate">ANUx-WRT</span>
-          <span class="brand-rev">REV 2.0</span>
+          <span class="brand-rev">REV 3.0</span>
         </a>
+        <div class="header-right">
         <nav class="nav-links">
           <a href="#explorer" class="nav-link">Firmware</a>
           <a href="#features" class="nav-link">Fitur</a>
@@ -48,7 +58,13 @@
             GitHub
           </a>
         </nav>
+        <button class="theme-toggle" id="themeToggle" aria-label="Ganti tema terang / gelap">
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+          <span id="themeLabel">DARK</span>
+        </button>
         <button class="nav-burger" id="navBurger" aria-label="Menu navigasi"><span></span><span></span><span></span></button>
+        </div>
       </header>
 
       <!-- ======= HERO : THE SOCKETED CHIP ======= -->

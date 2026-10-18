@@ -2,12 +2,12 @@
 
 Portal resmi & katalog unduhan firmware **[ANUx-WRT](https://github.com/latifangren/ANUx-WRT)**.
 
-Retheme total dari v2 mengikuti bahasa desain motherboard (ref: Zajno/Superlinked
+Retheme total mengikuti bahasa desain motherboard (v3), v4: full-bleed + dark mode (ref: Zajno/Superlinked
 di Dribbble): halaman sebagai satu board — chassis gelap, sekrup sudut, trace PCB
 berdenyut, pin array, LED, panel LCD cycler, dan boot sequence. Palet charcoal +
 abu hangat + copper; tipografi Barlow Condensed / IBM Plex Mono / Inter.
 
-Fungsi v1/v2 dipertahankan penuh (GitHub Releases API + cache + fallback,
+Fungsi v1/v2/v3 dipertahankan penuh (GitHub Releases API + cache + fallback,
 5 dimensi filter, parser nama file, XSS escaping) plus mode pratinjau yang jujur
 (badge "DATA CONTOH", tombol unduh disabled sampai rilis pertama ada).
 

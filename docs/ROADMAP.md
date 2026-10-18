@@ -21,3 +21,9 @@
 - [ ] Tombol "salin perintah wget/curl" per baris
 - [ ] Verifikasi parser lawan nama file asli dari build ImageBuilder pertama
 - [ ] i18n ID/EN toggle
+
+## v4 (2026-10-18)
+
+- [x] Board full-bleed (margin gelap kosong hilang), konten max 1600px
+- [x] Dark mode toggle + persist + anti-flicker, kontras teks diaudit
+- [x] REV 2.0 -> REV 3.0 (brand + boot overlay)
