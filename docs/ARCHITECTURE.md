@@ -1,56 +1,48 @@
-# Arsitektur Web Portal ANUx-WRT
+# ANUx-WRT Web — Arsitektur v2 ("network pulse")
 
-Dokumen ini menjelaskan rancangan arsitektur teknis, teknologi, dan alur integrasi data untuk web portal **ANUx-WRT**.
+Situs statis murni (HTML/CSS/JS vanilla), deploy via GitHub Pages. Tanpa build step, tanpa framework.
 
----
-
-## 1. Prinsip Desain
-* **Zero Backend Overhead**: Berjalan murni sebagai Static Site (HTML5/CSS3/Vanilla JS atau Static Site Generator seperti Vite/Astro) tanpa membutuhkan server PHP atau database berat.
-* **Hosting**: GitHub Pages (`https://latifangren.github.io/anux-wrt-web/` atau custom domain kustom via `CNAME`).
-* **Dynamic Release Fetching**: Memanfaatkan GitHub REST API publik untuk mengambil rilis dan aset download terbaru secara otomatis tanpa perlu mengedit HTML setiap ada rilis baru.
-
----
-
-## 2. Struktur Modul Rencana
+## Struktur
 
 ```text
-web/anux-wrt-web/
-├── index.html              # Halaman depan (Landing page & ringkasan)
-├── downloads/              # Katalog download firmware interaktif
-│   └── index.html
-├── guides/                 # Panduan instalasi dan flashing per-device
-│   ├── amlogic-stb.html
-│   ├── raspberry-pi.html
-│   └── x86-pc.html
-├── assets/                 # Aset statis
-│   ├── css/                # Tema Dark/Light & style responsif
-│   ├── js/                 # GitHub API release parser & filter perangkat
-│   └── img/                # Logo, ikon perangkat, dan screenshot UI
-└── docs/                   # Dokumentasi pengembang web
-    ├── ARCHITECTURE.md
-    └── ROADMAP.md
+anux-wrt-web/
+├── index.html          # struktur halaman: hero, explorer, fitur, perangkat, panduan, footer
+├── css/style.css       # seluruh styling + keyframes animasi
+├── js/net-canvas.js    # background canvas: node + paket data beranimasi
+├── js/parser.js        # parser nama file firmware -> metadata (device, kernel, tunnel, ...)
+├── js/releases.js      # provider data: GitHub Releases API + cache + fallback
+├── js/main.js          # controller: filter, render list, count-up, reveal on scroll
+└── docs/               # dokumentasi (file ini + ROADMAP.md)
 ```
 
----
+## Aliran data
 
-## 3. Integrasi GitHub Releases API
+1. `ReleasesProvider.fetchReleases()`:
+   - Cek `localStorage` (`anuxwrt_releases_cache_v2`, TTL 15 menit).
+   - Fetch `GET api.github.com/repos/latifangren/ANUx-WRT/releases?per_page=100`,
+     ambil asset `.img.gz` / `.img.xz` / `.tar.gz` dari semua rilis.
+   - Gagal / kosong → dataset fallback lokal (14 file contoh, mode pratinjau).
+2. `FirmwareParser.parseFilename(name)` mengubah tiap nama file menjadi
+   `{ deviceName, category, os, osVersion, kernel, kernelFlavor, bootMode, wifi, rootfs, tunnelText, dateStr }`.
+3. `main.js` menerapkan 5 filter (search, kategori, kernel, boot, tunnel),
+   me-render `.firmware-row` dengan entrance stagger, dan menganimasikan
+   counter statistik (count-up easeOutQuart).
 
-Untuk menyajikan link unduhan firmware `.img.gz` terbaru:
-* **Endpoint API**:  
-  `GET https://api.github.com/repos/latifangren/ANUx-WRT/releases/latest`
-* **Parser Logika**:
-  - Ambil daftar array `assets`.
-  - Ekstrak nama file berformat `ANUx-<BASE>-<BRANCH>-<TARGET>-<TUNNEL>-<DATE>.img.gz`.
-  - Kelompokkan aset berdasarkan kategori:
-    1. **x86_64** (PC / Mini PC)
-    2. **Raspberry Pi** (Pi 2B, 3B, 4B, 5)
-    3. **Amlogic TV Box** (B860H, HG680P, S905X3, S905X4)
-    4. **Rockchip** (NanoPi, OrangePi 5)
-    5. **Allwinner** (OrangePi Zero 2/3, 3 LTS)
-  - Tampilkan tombol unduh langsung dengan label ukuran file dan jumlah download.
+## Animasi
 
----
+| Area | Teknik |
+|---|---|
+| Background hero | `<canvas>` vanilla: node melayang + edge + paket glow (cyan/orange). Pause saat tab hidden, skip bila `prefers-reduced-motion`. |
+| Judul hero | gradient text dengan `background-position` animation |
+| Statistik | count-up via `requestAnimationFrame` |
+| Section & kartu | `IntersectionObserver` → class `.visible` (translateY + fade, delay via `data-delay`) |
+| Baris firmware | stagger `.row-in` per render (45ms/row, max 15) |
+| Badge sumber | pulse dot (live hijau / pratinjau kuning) |
+| Kartu fitur | radial glow mengikuti kursor (`--mx/--my`) |
+| Loading | `.spinner` (border-top rotate) + skeleton shimmer |
 
-## 4. Keamanan & Performa
-* Menggunakan cache browser (LocalStorage) untuk menyimpan hasil query GitHub API selama 10–30 menit agar tidak terkena *rate-limit* GitHub API unauthenticated (60 request/jam).
-* Menggunakan SVG icons dan CSS native variable untuk menjamin *bundle size* di bawah 200 KB.
+## Catatan
+
+- Tidak ada emoji di UI — ikon memakai inline SVG.
+- Semua teks user-generated (nama file dsb.) di-escape via `escapeHtml`/`escapeAttr`.
+- Cache key berversi (`_v2`) agar visitor lama tidak terjebak data basi.

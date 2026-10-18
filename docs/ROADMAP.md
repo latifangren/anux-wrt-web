@@ -1,34 +1,23 @@
-# Rencana Pengembangan (Roadmap) Web Portal ANUx-WRT
+# ANUx-WRT Web — Roadmap
 
-Dokumen ini memetakan tahapan rilis dan fitur yang direncanakan untuk website portal **ANUx-WRT**.
+## v2 (selesai — 2026-10-18)
 
----
+- [x] Rebuild total estetika "network pulse": canvas paket-data animasi di hero
+- [x] Count-up statistik, scroll reveal, stagger baris firmware
+- [x] Section baru dengan anchor beneran: Fitur, Perangkat, Panduan Flash (4 langkah + kredensial default)
+- [x] Logo mark SVG + favicon (ganti kotak huruf "A")
+- [x] Bugfix: `.spinner` CSS yang hilang, link nav mati (#features/#devices)
+- [x] Zero emoji di UI — badge memakai inline SVG
+- [x] Navigasi mobile (burger), header shrink on scroll
+- [x] `prefers-reduced-motion` dihormati di semua animasi
+- [x] Cache key berversi (`anuxwrt_releases_cache_v2`)
 
-## 🚩 Fase 1: Fondasi Repositori & Dokumentasi (Selesai ✅)
-- [x] Inisialisasi struktur repositori lokal `web/anux-wrt-web`.
-- [x] Dokumentasi arsitektur teknis (`ARCHITECTURE.md`).
-- [x] Penyusunan rencana fitur dan integrasi API (`ROADMAP.md`).
-- [x] Konfigurasi isolasi gitignore dari repositori utama firmware `ANUx-WRT`.
+## Berikutnya (usulan)
 
----
-
-## 🚀 Fase 2: Landing Page & Katalog Unduhan (Tahap Berikutnya)
-- [ ] Pembuatan `index.html` landing page dengan hero section, fitur unggulan (Footstrap & Vantage theme, 4G/5G modem, FileBrowser Go, Google BBR).
-- [ ] Integrasi Dark Mode dan Light Mode switcher (auto-detect OS preference).
-- [ ] Komponen filter unduhan perangkat (Tabs: x86, TV Box Amlogic, Raspberry Pi, Rockchip, Allwinner).
-- [ ] Script JavaScript pemanggil GitHub Releases API dengan caching LocalStorage.
-
----
-
-## 📖 Fase 3: Panduan & Dokumentasi Pengguna
-- [ ] Panduan flashing MicroSD / USB drive menggunakan BalenaEtcher & Rufus.
-- [ ] Panduan Mod SDCARD untuk STB ZTE B860H & Fiberhome HG680P.
-- [ ] Panduan konfigurasi awal: login LuCI, setting APN modem 4G/5G, lock band frekuensi, dan aktivasi tunnel VPN (OpenClash/Nikki).
-- [ ] FAQ & Troubleshooting umum (mengatasi read-only, port collision, TTL fix).
-
----
-
-## 🌐 Fase 4: Deployment & Domain Kustom
-- [ ] Penyiapan GitHub Actions workflow untuk auto-deploy ke GitHub Pages.
-- [ ] Pendaftaran domain kustom (opsional) via konfigurasi `CNAME`.
-- [ ] Optimasi SEO meta tags, OpenGraph sharing preview, dan favicon.
+- [ ] Mode terang (toggle dark/light) — struktur CSS variable sudah siap
+- [ ] Halaman detail per firmware (changelog per rilis dari body release GitHub)
+- [ ] Tombol "salin perintah wget/curl" per baris firmware
+- [ ] i18n ID/EN toggle
+- [ ] PWA: service worker untuk cache offline katalog
+- [ ] OG image + meta Twitter Card untuk share link
+- [ ] Integrasi badge "build status" dari workflow ImageBuilder (Actions API)

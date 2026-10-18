@@ -6,7 +6,7 @@
 const ReleasesProvider = (() => {
   const REPO_OWNER = "latifangren";
   const REPO_NAME = "ANUx-WRT";
-  const CACHE_KEY = "anuxwrt_releases_cache";
+  const CACHE_KEY = "anuxwrt_releases_cache_v2";
   const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
 
   // Offline fallback dataset for local preview & offline demo
