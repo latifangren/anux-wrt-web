@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANUx-WRT — Portal Resmi & Katalog Unduhan Firmware OpenWrt Modern</title>
+  <meta name="description" content="Pusat unduhan firmware ANUx-WRT untuk PC x86, TV Box Amlogic, Raspberry Pi, Rockchip, dan Allwinner. Dilengkapi tema modern Footstrap, Vantage, modem 4G/5G, dan BBR.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="#" class="brand">
+        <div class="brand-icon">A</div>
+        <span class="brand-title">ANUx-WRT</span>
+        <span class="brand-badge">PRO</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#explorer" class="nav-link">Firmware</a>
+        <a href="#features" class="nav-link">Fitur</a>
+        <a href="#devices" class="nav-link">Perangkat</a>
+        <a href="https://github.com/latifangren/ANUx-WRT" target="_blank" rel="noopener noreferrer" class="btn-github">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub Repository
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-tag">
+        <span class="dot"></span>
+        <span>OpenWrt 24.10 & 25.12 Ready • Fast ImageBuilder</span>
+      </div>
+      <h1 class="hero-title">Firmware OpenWrt Generasi Baru<br>Untuk Kinerja Tanpa Kompromi</h1>
+      <p class="hero-subtitle">
+        Dirancang khusus untuk router x86, TV Box Amlogic, dan SBC dengan tema visual modern <strong>Footstrap & Vantage</strong>, manajemen 4G/5G modem terpadu, dan akselerasi Google BBR.
+      </p>
+
+      <!-- Overall Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" id="totalFwCount">...</div>
+          <div class="stat-label">Total Rilis Firmware</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalDownloads">...</div>
+          <div class="stat-label">Total Unduhan</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalSize">...</div>
+          <div class="stat-label">Total Kapasitas Rilis</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explorer Section (Smart List Table) -->
+  <main class="explorer-section" id="explorer">
+    <div class="container">
+
+      <!-- Interactive Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-box">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Ketik untuk mencari (contoh: b860h, flipy, MODSDCARD, x86, 25.12, nikki)..." autocomplete="off">
+        </div>
+
+        <div class="filter-groups">
+          <!-- Device Category Filter -->
+          <div class="filter-row">
+            <span class="filter-label">Perangkat:</span>
+            <div class="chips-wrap" id="categoryChips">
+              <button class="chip-btn active" data-val="all">Semua</button>
+              <button class="chip-btn" data-val="amlogic">Amlogic STB</button>
+              <button class="chip-btn" data-val="x86">x86 PC</button>
+              <button class="chip-btn" data-val="rpi">Raspberry Pi</button>
+              <button class="chip-btn" data-val="orangepi">Orange Pi</button>
+              <button class="chip-btn" data-val="nanopi">NanoPi</button>
+              <button class="chip-btn" data-val="mangopi">MangoPi</button>
+            </div>
+          </div>
+
+          <!-- Kernel Flavor Filter -->
+          <div class="filter-row">
+            <span class="filter-label">Kernel:</span>
+            <div class="chips-wrap" id="kernelChips">
+              <button class="chip-btn active" data-val="all">Semua Rasa</button>
+              <button class="chip-btn" data-val="Flipy">🐧 Flipy Stable</button>
+              <button class="chip-btn" data-val="Ophub">🐧 Ophub</button>
+              <button class="chip-btn" data-val="Vendor (ULO)">🐧 Vendor / ULO</button>
+              <button class="chip-btn" data-val="Modern Kernel">🐧 Kernel Modern (6.x)</button>
+              <button class="chip-btn" data-val="LTS Stable">🐧 LTS (5.x)</button>
+            </div>
+          </div>
+
+          <!-- Boot Mode Filter -->
+          <div class="filter-row">
+            <span class="filter-label">Tipe Boot:</span>
+            <div class="chips-wrap" id="bootChips">
+              <button class="chip-btn active" data-val="all">Semua Tipe</button>
+              <button class="chip-btn" data-val="modsdcard">💾 MicroSD (MODSDCARD)</button>
+              <button class="chip-btn" data-val="emmc">⚡ eMMC / Direct Flash</button>
+            </div>
+          </div>
+
+          <!-- Tunnel Filter -->
+          <div class="filter-row">
+            <span class="filter-label">Tunnel:</span>
+            <div class="chips-wrap" id="tunnelChips">
+              <button class="chip-btn active" data-val="all">Semua Tunnel</button>
+              <button class="chip-btn" data-val="OpenClash">OpenClash</button>
+              <button class="chip-btn" data-val="Nikki">Nikki</button>
+              <button class="chip-btn" data-val="PassWall">PassWall</button>
+              <button class="chip-btn" data-val="No Tunnel">No Tunnel (Polos)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Header -->
+      <div class="results-header">
+        <div class="results-count" id="filteredCount">Menampilkan firmware...</div>
+      </div>
+
+      <!-- Dynamic Firmware List (Smart Rows) -->
+      <div class="firmware-list" id="firmwareList">
+        <!-- Rendered by main.js -->
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div>
+        <strong>ANUx-WRT Project</strong> • Dikembangkan oleh <a href="https://github.com/latifangren" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">@latifangren</a>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/latifangren/ANUx-WRT" target="_blank">Firmware Repo</a>
+        <a href="https://github.com/latifangren/ANUx-WRT/releases" target="_blank">Semua Rilis</a>
+        <a href="https://github.com/latifangren/ANUx-WRT/blob/main/docs/EXTERNAL_REPOSITORIES.md" target="_blank">Dokumentasi</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/parser.js"></script>
+  <script src="js/releases.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
