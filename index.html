@@ -3,86 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ANUx-WRT — Portal Resmi & Katalog Unduhan Firmware OpenWrt Modern</title>
-  <meta name="description" content="Pusat unduhan firmware ANUx-WRT untuk PC x86, TV Box Amlogic, Raspberry Pi, Rockchip, dan Allwinner. Dilengkapi tema modern Footstrap, Vantage, modem 4G/5G, dan BBR.">
+  <title>ANUx-WRT — Firmware OpenWrt Generasi Baru</title>
+  <meta name="description" content="Pusat unduhan firmware ANUx-WRT: OpenWrt/ImmortalWrt custom untuk x86_64, TV Box Amlogic, Raspberry Pi, Rockchip, Allwinner & MangoPi. Tema Footstrap & Vantage, modem 4G/5G, multi-tunnel VPN, Google BBR.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b12'/%3E%3Ccircle cx='32' cy='38' r='7' fill='%2300d2ff'/%3E%3Cpath d='M20 26a17 17 0 0 1 24 0' stroke='%23ff6b35' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M26 32a8.5 8.5 0 0 1 12 0' stroke='%2300d2ff' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+  <!-- Animated network canvas background -->
+  <canvas id="netCanvas" aria-hidden="true"></canvas>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
   <!-- Navigation -->
-  <header class="site-header">
+  <header class="site-header" id="siteHeader">
     <div class="container nav-wrapper">
-      <a href="#" class="brand">
-        <div class="brand-icon">A</div>
-        <span class="brand-title">ANUx-WRT</span>
+      <a href="#top" class="brand">
+        <span class="brand-mark">
+          <svg viewBox="0 0 64 64" width="22" height="22" fill="none">
+            <circle cx="32" cy="38" r="7" fill="#00d2ff"/>
+            <path d="M20 26a17 17 0 0 1 24 0" stroke="#ff6b35" stroke-width="4" stroke-linecap="round"/>
+            <path d="M26 32a8.5 8.5 0 0 1 12 0" stroke="#00d2ff" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-title">ANUx<b>-WRT</b></span>
         <span class="brand-badge">PRO</span>
       </a>
-
       <nav class="nav-links">
         <a href="#explorer" class="nav-link">Firmware</a>
         <a href="#features" class="nav-link">Fitur</a>
         <a href="#devices" class="nav-link">Perangkat</a>
+        <a href="#guide" class="nav-link">Panduan</a>
         <a href="https://github.com/latifangren/ANUx-WRT" target="_blank" rel="noopener noreferrer" class="btn-github">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-          </svg>
-          GitHub Repository
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
         </a>
       </nav>
+      <button class="nav-burger" id="navBurger" aria-label="Menu navigasi">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-tag">
-        <span class="dot"></span>
-        <span>OpenWrt 24.10 & 25.12 Ready • Fast ImageBuilder</span>
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="container hero-inner">
+      <div class="hero-tag reveal">
+        <span class="pulse-dot"></span>
+        <span>OpenWrt 24.10 &amp; 25.12 Ready &bull; ImageBuilder Otomatis</span>
       </div>
-      <h1 class="hero-title">Firmware OpenWrt Generasi Baru<br>Untuk Kinerja Tanpa Kompromi</h1>
-      <p class="hero-subtitle">
-        Dirancang khusus untuk router x86, TV Box Amlogic, dan SBC dengan tema visual modern <strong>Footstrap & Vantage</strong>, manajemen 4G/5G modem terpadu, dan akselerasi Google BBR.
+      <h1 class="hero-title reveal" data-delay="80">Firmware OpenWrt<br><span class="grad-text">Generasi Baru.</span></h1>
+      <p class="hero-subtitle reveal" data-delay="160">
+        Custom build untuk router x86, TV Box Amlogic, dan SBC — dengan tema SPA
+        <strong>Footstrap &amp; Vantage</strong>, manajemen modem 4G/5G terpadu,
+        multi-tunnel VPN, dan akselerasi <strong>Google BBR</strong>.
       </p>
+      <div class="hero-cta reveal" data-delay="240">
+        <a href="#explorer" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Jelajahi Firmware
+        </a>
+        <a href="#guide" class="btn-ghost">Panduan Flash</a>
+      </div>
 
-      <!-- Overall Stats Row -->
       <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-value" id="totalFwCount">...</div>
-          <div class="stat-label">Total Rilis Firmware</div>
+        <div class="stat-card reveal" data-delay="0">
+          <div class="stat-value" id="totalFwCount" data-count="0">0</div>
+          <div class="stat-label">Rilis Firmware</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-value" id="totalDownloads">...</div>
+        <div class="stat-card reveal" data-delay="80">
+          <div class="stat-value" id="totalDownloads" data-count="0">0</div>
           <div class="stat-label">Total Unduhan</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-value" id="totalSize">...</div>
-          <div class="stat-label">Total Kapasitas Rilis</div>
+        <div class="stat-card reveal" data-delay="160">
+          <div class="stat-value" id="totalSize" data-count="0" data-format="bytes">0 MB</div>
+          <div class="stat-label">Kapasitas Rilis</div>
         </div>
       </div>
     </div>
+    <a href="#explorer" class="scroll-hint" aria-label="Gulir ke bawah">
+      <span class="scroll-hint-wheel"></span>
+    </a>
   </section>
 
-  <!-- Explorer Section (Smart List Table) -->
+  <!-- Firmware Explorer -->
   <main class="explorer-section" id="explorer">
     <div class="container">
+      <div class="section-head reveal">
+        <span class="section-kicker">Katalog Unduhan</span>
+        <h2 class="section-title">Pilih firmware untuk perangkatmu</h2>
+        <p class="section-desc">Disinkron otomatis dari GitHub Releases. Saring berdasarkan perangkat, kernel, tipe boot, dan tunnel.</p>
+      </div>
 
-      <!-- Interactive Filter Bar -->
-      <div class="filter-bar">
+      <div class="filter-bar reveal">
         <div class="search-box">
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" id="searchInput" class="search-input" placeholder="Ketik untuk mencari (contoh: b860h, flipy, MODSDCARD, x86, 25.12, nikki)..." autocomplete="off">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Cari: b860h, flipy, MODSDCARD, x86, 25.12, nikki..." autocomplete="off">
         </div>
-
         <div class="filter-groups">
-          <!-- Device Category Filter -->
           <div class="filter-row">
-            <span class="filter-label">Perangkat:</span>
+            <span class="filter-label">Perangkat</span>
             <div class="chips-wrap" id="categoryChips">
               <button class="chip-btn active" data-val="all">Semua</button>
               <button class="chip-btn" data-val="amlogic">Amlogic STB</button>
@@ -93,75 +115,208 @@
               <button class="chip-btn" data-val="mangopi">MangoPi</button>
             </div>
           </div>
-
-          <!-- Kernel Flavor Filter -->
           <div class="filter-row">
-            <span class="filter-label">Kernel:</span>
+            <span class="filter-label">Kernel</span>
             <div class="chips-wrap" id="kernelChips">
               <button class="chip-btn active" data-val="all">Semua Rasa</button>
-              <button class="chip-btn" data-val="Flipy">🐧 Flipy Stable</button>
-              <button class="chip-btn" data-val="Ophub">🐧 Ophub</button>
-              <button class="chip-btn" data-val="Vendor (ULO)">🐧 Vendor / ULO</button>
-              <button class="chip-btn" data-val="Modern Kernel">🐧 Kernel Modern (6.x)</button>
-              <button class="chip-btn" data-val="LTS Stable">🐧 LTS (5.x)</button>
+              <button class="chip-btn" data-val="Flipy">Flipy Stable</button>
+              <button class="chip-btn" data-val="Ophub">Ophub</button>
+              <button class="chip-btn" data-val="Vendor (ULO)">Vendor / ULO</button>
+              <button class="chip-btn" data-val="Modern Kernel">Modern (6.x)</button>
+              <button class="chip-btn" data-val="LTS Stable">LTS (5.x)</button>
             </div>
           </div>
-
-          <!-- Boot Mode Filter -->
           <div class="filter-row">
-            <span class="filter-label">Tipe Boot:</span>
+            <span class="filter-label">Tipe Boot</span>
             <div class="chips-wrap" id="bootChips">
               <button class="chip-btn active" data-val="all">Semua Tipe</button>
-              <button class="chip-btn" data-val="modsdcard">💾 MicroSD (MODSDCARD)</button>
-              <button class="chip-btn" data-val="emmc">⚡ eMMC / Direct Flash</button>
+              <button class="chip-btn" data-val="modsdcard">MicroSD (MODSDCARD)</button>
+              <button class="chip-btn" data-val="emmc">eMMC / Direct</button>
             </div>
           </div>
-
-          <!-- Tunnel Filter -->
           <div class="filter-row">
-            <span class="filter-label">Tunnel:</span>
+            <span class="filter-label">Tunnel</span>
             <div class="chips-wrap" id="tunnelChips">
-              <button class="chip-btn active" data-val="all">Semua Tunnel</button>
+              <button class="chip-btn active" data-val="all">Semua</button>
               <button class="chip-btn" data-val="OpenClash">OpenClash</button>
               <button class="chip-btn" data-val="Nikki">Nikki</button>
               <button class="chip-btn" data-val="PassWall">PassWall</button>
-              <button class="chip-btn" data-val="No Tunnel">No Tunnel (Polos)</button>
+              <button class="chip-btn" data-val="No Tunnel">No Tunnel</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Results Header -->
-      <div class="results-header">
-        <div class="results-count" id="filteredCount">Menampilkan firmware...</div>
-        <div id="dataSourceBadge" class="brand-badge" style="text-transform:none; font-size:12px; font-weight:500;">
-          Memeriksa sumber rilis...
-        </div>
+      <div class="results-header reveal">
+        <div class="results-count" id="filteredCount">Memuat firmware...</div>
+        <div id="dataSourceBadge" class="source-badge">Memeriksa sumber rilis...</div>
       </div>
 
-      <!-- Dynamic Firmware List (Smart Rows) -->
-      <div class="firmware-list" id="firmwareList">
-        <!-- Rendered by main.js -->
-      </div>
-
+      <div class="firmware-list" id="firmwareList"></div>
     </div>
   </main>
+
+  <!-- Features -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-kicker">Kenapa ANUx-WRT</span>
+        <h2 class="section-title">Dibangun untuk kecepatan,<br>ditala untuk stabilitas</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card reveal">
+          <div class="feature-icon f-cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M7 10l2.5-2.5M17 10l-2.5-2.5"/></svg>
+          </div>
+          <h3>Tema SPA Modern</h3>
+          <p><strong>Footstrap</strong> — antarmuka single-page 2x lebih cepat dengan diagram topologi jaringan visual. <strong>Vantage</strong> — command palette, flyout sidebar, dan live status sinyal per klien.</p>
+        </article>
+        <article class="feature-card reveal" data-delay="80">
+          <div class="feature-icon f-orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h.01"/><path d="M8.5 16.4a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 14 0"/><path d="M2 9.4a15 15 0 0 1 20 0"/></svg>
+          </div>
+          <h3>Modem 4G/5G Terpadu</h3>
+          <p>luci-app-5gmodem: sinyal real-time, carrier aggregation multi-band, lock band LTE/5G, SMS &amp; USSD, terminal AT command, fix TTL otomatis, dan peta BTS.</p>
+        </article>
+        <article class="feature-card reveal" data-delay="160">
+          <div class="feature-icon f-purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10"/><path d="M2 20h20"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+          </div>
+          <h3>File Manager Golang</h3>
+          <p>FileBrowser — single binary hemat RAM (~15-25 MB), web code editor, upload/download/extract, streaming media. Bebas bloatware PHP.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon f-green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2z"/></svg>
+          </div>
+          <h3>Kernel &amp; Sistem Ditala</h3>
+          <p>Google BBR congestion control, ZRAM ZSTD anti-OOM, hardware monitor presisi, uhttpd &amp; rpcd tuning, dan auto-repair filesystem ext4 read-only.</p>
+        </article>
+        <article class="feature-card reveal" data-delay="80">
+          <div class="feature-icon f-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+          </div>
+          <h3>Siap Multi-Tunnel</h3>
+          <p>OpenClash (Mihomo), Nikki + Zashboard, PassWall, FusionTunX, Clashoo, hingga Tailscale — instalasi terintegrasi dalam satu image.</p>
+        </article>
+        <article class="feature-card reveal" data-delay="160">
+          <div class="feature-icon f-yellow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </div>
+          <h3>Build Otomatis</h3>
+          <p>GitHub Actions ImageBuilder: pilih cabang OpenWrt/ImmortalWrt, target perangkat, tunnel, dan ukuran rootfs — firmware jadi tanpa compile manual.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Devices -->
+  <section class="devices-section" id="devices">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-kicker">Kompatibilitas</span>
+        <h2 class="section-title">Satu firmware, banyak perangkat</h2>
+        <p class="section-desc">Dari mini PC sampai STB sejuta umat — pilih target build sesuai hardware-mu.</p>
+      </div>
+      <div class="device-grid">
+        <div class="device-card reveal">
+          <span class="device-chip d-cyan">x86_64</span>
+          <h3>PC / Mini PC</h3>
+          <p>x86_64 &amp; x86 Generic — router rumahan &amp; homelab bertenaga penuh.</p>
+        </div>
+        <div class="device-card reveal" data-delay="60">
+          <span class="device-chip d-orange">Amlogic</span>
+          <h3>TV Box / STB</h3>
+          <p>B860H v1/v2/v5, HG680P, HG680-FJ, S905X&ndash;S905X4, S912, S922X, TX3 Mini, X96 Mini.</p>
+        </div>
+        <div class="device-card reveal" data-delay="120">
+          <span class="device-chip d-red">Raspberry Pi</span>
+          <h3>Raspberry Pi</h3>
+          <p>Pi 2B, 3B/3B+, 4B, hingga 5 — dari eksperimen sampai gateway serius.</p>
+        </div>
+        <div class="device-card reveal" data-delay="180">
+          <span class="device-chip d-pink">Rockchip</span>
+          <h3>Rockchip</h3>
+          <p>NanoPi R2S/R3S/R4S/R5S/M5, Orange Pi 5/5B/5 Plus, RK3328, RK3399.</p>
+        </div>
+        <div class="device-card reveal">
+          <span class="device-chip d-amber">Allwinner</span>
+          <h3>Allwinner</h3>
+          <p>Orange Pi 3/3 LTS, Zero 2/Zero 3, Zero Plus (H5) — hemat daya, tetap kencang.</p>
+        </div>
+        <div class="device-card reveal" data-delay="60">
+          <span class="device-chip d-green">MangoPi</span>
+          <h3>Mangopi / Widora</h3>
+          <p>MangoPi M28C &amp; M28K — mungil untuk titik akses &amp; IoT gateway.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flash Guide -->
+  <section class="guide-section" id="guide">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-kicker">Mulai Cepat</span>
+        <h2 class="section-title">Flash dalam 4 langkah</h2>
+      </div>
+      <div class="steps-row">
+        <div class="step-card reveal">
+          <span class="step-num">01</span>
+          <h3>Unduh image</h3>
+          <p>Pilih firmware sesuai perangkat &amp; kernel di katalog atas, lalu unduh file <code>.img.gz</code>.</p>
+        </div>
+        <div class="step-card reveal" data-delay="80">
+          <span class="step-num">02</span>
+          <h3>Tulis ke media</h3>
+          <p>Flash dengan Balena Etcher / Rufus ke MicroSD, eMMC, atau USB drive. Untuk Amlogic gunakan varian <code>MODSDCARD</code>.</p>
+        </div>
+        <div class="step-card reveal" data-delay="160">
+          <span class="step-num">03</span>
+          <h3>Boot &amp; sambung</h3>
+          <p>Colok media, nyalakan perangkat, hubungkan ke <code>192.168.1.1</code> — login <code>root</code> / <code>root</code>.</p>
+        </div>
+        <div class="step-card reveal" data-delay="240">
+          <span class="step-num">04</span>
+          <h3>Konfigurasi</h3>
+          <p>Atur WAN, Wi-Fi (<code>ANUx</code> / <code>ANUx2026</code>), modem 4G/5G, dan tunnel favoritmu lewat LuCI.</p>
+        </div>
+      </div>
+      <div class="defaults-bar reveal">
+        <div class="default-item"><span class="default-key">Gateway</span><code>192.168.1.1</code></div>
+        <div class="default-item"><span class="default-key">Login</span><code>root / root</code></div>
+        <div class="default-item"><span class="default-key">Wi-Fi 2.4G</span><code>ANUx</code></div>
+        <div class="default-item"><span class="default-key">Wi-Fi 5G</span><code>ANUx_5G</code></div>
+        <div class="default-item"><span class="default-key">Wi-Fi Key</span><code>ANUx2026</code></div>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-content">
-      <div>
-        <strong>ANUx-WRT Project</strong> • Dikembangkan oleh <a href="https://github.com/latifangren" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">@latifangren</a>
+      <div class="footer-brand">
+        <span class="brand-mark sm">
+          <svg viewBox="0 0 64 64" width="18" height="18" fill="none">
+            <circle cx="32" cy="38" r="7" fill="#00d2ff"/>
+            <path d="M20 26a17 17 0 0 1 24 0" stroke="#ff6b35" stroke-width="4" stroke-linecap="round"/>
+            <path d="M26 32a8.5 8.5 0 0 1 12 0" stroke="#00d2ff" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <div>
+          <strong>ANUx-WRT Project</strong>
+          <p>Dikembangkan oleh <a href="https://github.com/latifangren" target="_blank" rel="noopener">@latifangren</a> &bull; fork dari <a href="https://github.com/de-quenx/XIDZs-WRT" target="_blank" rel="noopener">XIDZs-WRT</a></p>
+        </div>
       </div>
       <div class="footer-links">
-        <a href="https://github.com/latifangren/ANUx-WRT" target="_blank">Firmware Repo</a>
-        <a href="https://github.com/latifangren/ANUx-WRT/releases" target="_blank">Semua Rilis</a>
-        <a href="https://github.com/latifangren/ANUx-WRT/blob/main/docs/EXTERNAL_REPOSITORIES.md" target="_blank">Dokumentasi</a>
+        <a href="https://github.com/latifangren/ANUx-WRT" target="_blank" rel="noopener">Firmware Repo</a>
+        <a href="https://github.com/latifangren/ANUx-WRT/releases" target="_blank" rel="noopener">Semua Rilis</a>
+        <a href="https://github.com/latifangren/ANUx-WRT/blob/main/docs/EXTERNAL_REPOSITORIES.md" target="_blank" rel="noopener">Dokumentasi</a>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
+  <script src="js/net-canvas.js"></script>
   <script src="js/parser.js"></script>
   <script src="js/releases.js"></script>
   <script src="js/main.js"></script>
