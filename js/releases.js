@@ -127,7 +127,7 @@ const ReleasesProvider = (() => {
 
     // 2. Fetch live data from GitHub Releases API
     try {
-      const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases`);
+      const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases?per_page=100`);
       if (!response.ok) {
         throw new Error(`GitHub API returned status ${response.status}`);
       }
@@ -152,20 +152,29 @@ const ReleasesProvider = (() => {
       }
 
       if (assets.length > 0) {
+        const payload = {
+          timestamp: Date.now(),
+          isLive: true,
+          source: `${REPO_OWNER}/${REPO_NAME}`,
+          data: assets
+        };
         try {
-          localStorage.setItem(CACHE_KEY, JSON.stringify({
-            timestamp: Date.now(),
-            data: assets
-          }));
+          localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
         } catch (e) {}
-        return assets;
+        return payload;
       }
     } catch (err) {
       console.warn("Failed to fetch live releases from GitHub, falling back to local dataset:", err);
     }
 
     // 3. Fallback to offline dataset
-    return FALLBACK_RELEASES;
+    // 3. Fallback to preview dataset (when no releases yet on latifangren/ANUx-WRT)
+    return {
+      timestamp: Date.now(),
+      isLive: false,
+      source: "Preview Data (Menunggu Rilis Pertama GitHub Actions)",
+      data: FALLBACK_RELEASES
+    };
   }
 
   return {

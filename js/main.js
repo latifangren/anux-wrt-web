@@ -39,7 +39,21 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    const rawAssets = await ReleasesProvider.fetchReleases();
+    const result = await ReleasesProvider.fetchReleases();
+    const rawAssets = result.data || result;
+    const isLive = result.isLive || false;
+    const dataSource = result.source || "latifangren/ANUx-WRT";
+
+    const statusBadge = document.getElementById("dataSourceBadge");
+    if (statusBadge) {
+      if (isLive) {
+        statusBadge.innerHTML = `<span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--accent-green); margin-right:6px; box-shadow:0 0 8px var(--accent-green);"></span> 🟢 Live GitHub Releases (${escapeHtml(dataSource)})`;
+        statusBadge.style.borderColor = "var(--accent-green)";
+      } else {
+        statusBadge.innerHTML = `<span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--accent-yellow); margin-right:6px; box-shadow:0 0 8px var(--accent-yellow);"></span> 🟡 Mode Pratinjau (Menunggu Rilis Pertama GitHub Actions)`;
+        statusBadge.style.borderColor = "var(--accent-yellow)";
+      }
+    }
 
     allFirmware = rawAssets.map(asset => {
       const meta = FirmwareParser.parseFilename(asset.name);
@@ -51,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
         downloadUrl: asset.browser_download_url
       };
     });
-
     updateOverallStats();
     applyFilters();
   }
