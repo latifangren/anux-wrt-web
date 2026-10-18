@@ -28,12 +28,31 @@ document.addEventListener("DOMContentLoaded", () => {
   init();
 
   async function init() {
+    setupTheme();
     setupReveal();
     setupHeader();
     setupBurger();
     setupLcd();
     setupFilterEvents();
     runBoot(() => loadFirmwareData());
+  }
+
+  // ---------- Theme toggle (light/dark), persisted ----------
+  function setupTheme() {
+    const root = document.documentElement;
+    const btn = document.getElementById("themeToggle");
+    const label = document.getElementById("themeLabel");
+    const apply = t => {
+      root.setAttribute("data-theme", t);
+      if (label) label.textContent = t === "dark" ? "LIGHT" : "DARK";
+      try { localStorage.setItem("anuxwrt_theme", t); } catch (e) {}
+    };
+    // head pre-script already set data-theme; just sync the label
+    const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    if (label) label.textContent = current === "dark" ? "LIGHT" : "DARK";
+    if (btn) btn.addEventListener("click", () => {
+      apply(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    });
   }
 
   // ---------- Boot sequence ----------

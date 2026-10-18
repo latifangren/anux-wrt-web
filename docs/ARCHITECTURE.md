@@ -43,3 +43,17 @@ anux-wrt-web/
 Sama seperti v2: `ReleasesProvider` (cache 15 mnt → API → fallback) →
 `FirmwareParser.parseFilename` → filter 5 dimensi → render `.firmware-row`
 dengan stagger hanya di render pertama / setelah idle 600ms (tidak per keystroke).
+
+## v4 — full-bleed + dark mode (2026-10-18)
+
+- Board full-bleed: `.chassis` padding 10px, `.board` tanpa max-width,
+  konten dalam dibatasi `--content-max: 1600px` (tidak ada lagi margin gelap kosong).
+- Dark mode: `[data-theme="dark"]` di `<html>` menimpa seluruh variable warna.
+  Toggle di header (ikon moon/sun + label), preferensi tersimpan di
+  `localStorage["anuxwrt_theme"]`, pre-apply via script inline di `<head>`
+  agar tidak flicker. Panel LCD / control panel / spec plate memang sudah gelap
+  sehingga tidak berubah di kedua tema; yang berubah: board, kartu, teks, badge,
+  trace PCB, pin, header.
+- Kontras dark mode: teks utama `#e9edf2` di atas board `#101319`
+  (kontras > 12:1); teks sekunder `#a9b2bc` (> 7:1); aksen copper dicerahkan
+  menjadi `#f08a3c` agar tetap terbaca di atas gelap.
