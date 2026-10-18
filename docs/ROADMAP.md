@@ -1,23 +1,23 @@
 # ANUx-WRT Web — Roadmap
 
-## v2 (selesai — 2026-10-18)
+## v3 "the router computer" (2026-10-18)
 
-- [x] Rebuild total estetika "network pulse": canvas paket-data animasi di hero
-- [x] Count-up statistik, scroll reveal, stagger baris firmware
-- [x] Section baru dengan anchor beneran: Fitur, Perangkat, Panduan Flash (4 langkah + kredensial default)
-- [x] Logo mark SVG + favicon (ganti kotak huruf "A")
-- [x] Bugfix: `.spinner` CSS yang hilang, link nav mati (#features/#devices)
-- [x] Zero emoji di UI — badge memakai inline SVG
-- [x] Navigasi mobile (burger), header shrink on scroll
-- [x] `prefers-reduced-motion` dihormati di semua animasi
-- [x] Cache key berversi (`anuxwrt_releases_cache_v2`)
+- [x] Retheme total ikut bahasa motherboard (ref: Zajno/Superlinked): chassis + board + sekrup + trace PCB + pin array
+- [x] Boot sequence overlay ("LINKING… %", max 6 dtk, klik untuk skip)
+- [x] Hero chip socketed + 6 kartu modul + panel LCD cycler nama device (7 device, auto 4.2 dtk, tombol ‹ ›)
+- [x] Trace PCB animasi (pulse copper via stroke-dashoffset), LED blink di modul/row
+- [x] Spec plate: 4 readout LCD (amber/hijau), count-up dipertahankan
+- [x] Mode pratinjau jujur: badge "DATA CONTOH", tombol unduh disabled, kolom diunduh disembunyikan
+- [x] Stagger row hanya di render pertama / idle >600ms (tidak per keystroke)
+- [x] Palet: charcoal + abu hangat + copper; tipografi Barlow Condensed / IBM Plex Mono / Inter
+- [x] theme-color meta, aria-pressed di chips, aria-label di search
+- [x] Cache key `_v3`
 
 ## Berikutnya (usulan)
 
-- [ ] Mode terang (toggle dark/light) — struktur CSS variable sudah siap
-- [ ] Halaman detail per firmware (changelog per rilis dari body release GitHub)
-- [ ] Tombol "salin perintah wget/curl" per baris firmware
+- [ ] OG/Twitter meta + OG image untuk share link
+- [ ] Mode gelap alternatif (PCB gelap) via toggle
+- [ ] Halaman detail per firmware (changelog dari body release)
+- [ ] Tombol "salin perintah wget/curl" per baris
+- [ ] Verifikasi parser lawan nama file asli dari build ImageBuilder pertama
 - [ ] i18n ID/EN toggle
-- [ ] PWA: service worker untuk cache offline katalog
-- [ ] OG image + meta Twitter Card untuk share link
-- [ ] Integrasi badge "build status" dari workflow ImageBuilder (Actions API)
