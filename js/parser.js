@@ -86,7 +86,7 @@ const FirmwareParser = (() => {
     // 3. Detect Kernel version & flavor
     let kernel = "";
     let kernelFlavor = "Mainline";
-    const kMatch = filename.match(/k([0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[A-Za-z0-9._]+)?)/i);
+    const kMatch = filename.match(/k([0-9]+\.[0-9]+(?:\.[0-9]+)?)/i);
     if (kMatch) {
       kernel = `k${kMatch[1]}`;
     }
